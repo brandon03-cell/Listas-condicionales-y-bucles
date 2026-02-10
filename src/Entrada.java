@@ -16,6 +16,21 @@ public class Entrada {
     public Entrada() {
     }
 
+    public double getPrecioTotal() {
+        double precioBase = concierto.getPrecioBase();
+
+        switch (this.tipo) {
+            case GRADA:
+                return precioBase;
+            case PISTA:
+                return precioBase * 1.10;
+            case VIP:
+                return precioBase * 1.20;
+            default:
+                return 0;
+        }
+    }
+
     public Concierto getConcierto() {
         return concierto;
     }
@@ -44,4 +59,8 @@ public class Entrada {
         return Objects.hash(getConcierto(), getTipo());
     }
 
+    @Override
+    public String toString() {
+        return "Enrada de " + getPrecioTotal() + "€";
+    }
 }
