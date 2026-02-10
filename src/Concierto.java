@@ -38,6 +38,14 @@ public class Concierto {
         return recaudacionTotal / totalEntradas;
     }
 
+    public boolean entradasDisponibles() {
+        if (entradasVendidas.size() < aforoMaximo) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String getArtista() {
         return artista;
     }
