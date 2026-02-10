@@ -26,7 +26,16 @@ public class Concierto {
         for (Entrada e : entradasVendidas) {
             totalRecaudado += e.getPrecioTotal();
         }
-        return TotalRecaudado;
+        return totalRecaudado;
+    }
+
+    public double calcularPrecioMedio() {
+        int totalEntradas = entradasVendidas.size();
+        if (totalEntradas == 0) {
+            return 0;
+        }
+        double recaudacionTotal = calcularRecaudacion();
+        return recaudacionTotal / totalEntradas;
     }
 
     public String getArtista() {
@@ -81,7 +90,8 @@ public class Concierto {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Concierto concierto = (Concierto) o;
-        return Double.compare(getPrecioBase(), concierto.getPrecioBase()) == 0 && getAforoMaximo() == concierto.getAforoMaximo() && isActivo() == concierto.isActivo() && Objects.equals(getArtista(), concierto.getArtista()) && Objects.equals(getCiudad(), concierto.getCiudad()) && Objects.equals(getEntradasVendidas(), concierto.getEntradasVendidas());
+        return Double.compare(getPrecioBase(), concierto.getPrecioBase()) == 0 && getAforoMaximo() == concierto.getAforoMaximo() && isActivo() == concierto.isActivo() &&
+                Objects.equals(getArtista(), concierto.getArtista()) && Objects.equals(getCiudad(), concierto.getCiudad()) && Objects.equals(getEntradasVendidas(), concierto.getEntradasVendidas());
     }
 
     @Override
