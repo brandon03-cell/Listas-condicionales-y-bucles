@@ -51,12 +51,12 @@ public class Entrada {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Entrada entrada = (Entrada) o;
-        return Objects.equals(getConcierto(), entrada.getConcierto()) && getTipo() == entrada.getTipo();
+        return getTipo() == entrada.getTipo();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getConcierto(), getTipo());
+        return Objects.hash(getTipo());
     }
 
     @Override

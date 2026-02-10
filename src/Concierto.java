@@ -99,12 +99,12 @@ public class Concierto {
         if (o == null || getClass() != o.getClass()) return false;
         Concierto concierto = (Concierto) o;
         return Double.compare(getPrecioBase(), concierto.getPrecioBase()) == 0 && getAforoMaximo() == concierto.getAforoMaximo() && isActivo() == concierto.isActivo() &&
-                Objects.equals(getArtista(), concierto.getArtista()) && Objects.equals(getCiudad(), concierto.getCiudad()) && Objects.equals(getEntradasVendidas(), concierto.getEntradasVendidas());
+                Objects.equals(getArtista(), concierto.getArtista()) && Objects.equals(getCiudad(), concierto.getCiudad());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getArtista(), getCiudad(), getPrecioBase(), getAforoMaximo(), getEntradasVendidas(), isActivo());
+        return Objects.hash(getArtista(), getCiudad(), getPrecioBase(), getAforoMaximo(), isActivo());
     }
 
     @Override
