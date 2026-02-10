@@ -9,12 +9,12 @@ public class Concierto {
     private ArrayList<Entrada> entradasVendidas = new ArrayList();
     private boolean activo;
 
-    public Concierto(String artista, String ciudad, double precioBase, int aforoMaximo, ArrayList<Entrada> entradasVendidas, boolean activo) {
+    public Concierto(String artista, String ciudad, double precioBase, int aforoMaximo, boolean activo) {
         this.artista = artista;
         this.ciudad = ciudad;
         this.precioBase = precioBase;
         this.aforoMaximo = aforoMaximo;
-        this.entradasVendidas = entradasVendidas;
+        this.entradasVendidas = new ArrayList<>();
         this.activo = activo;
     }
 

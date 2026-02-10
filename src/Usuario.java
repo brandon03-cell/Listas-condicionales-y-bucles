@@ -10,13 +10,9 @@ public class Usuario {
     private HashSet<Concierto> conciertosAsistidos = new HashSet<>();
     private HashMap<Concierto, Integer> valoraciones = new HashMap<>();
 
-    public Usuario(String nombre, int edad, ArrayList<Entrada> entradasCompradas,
-                   HashSet<Concierto> conciertosAsistidos, HashMap<Concierto, Integer> valoraciones) {
+    public Usuario(String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
-        this.entradasCompradas = entradasCompradas;
-        this.conciertosAsistidos = conciertosAsistidos;
-        this.valoraciones = valoraciones;
     }
 
     public Usuario() {
@@ -109,6 +105,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return getNombre() + " ha asistido a " + getConciertosAsistidos().size() + ")";
+        return getNombre() + " (ha asistido a " + getConciertosAsistidos().size() + ")";
     }
 }
