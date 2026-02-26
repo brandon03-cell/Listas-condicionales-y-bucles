@@ -1,52 +1,27 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Usuario {
     private String nombre;
     private int edad;
-    private ArrayList<Entrada> entradasCompradas = new ArrayList<>();
-    private HashSet<Concierto> conciertosAsistidos = new HashSet<>();
-    private HashMap<Concierto, Integer> valoraciones = new HashMap<>();
-
-    public Usuario(String nombre, int edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-    }
+    private ArrayList<Entrada> entradasCompradas;
+    private HashSet<Concierto> conciertosAsistidos;
+    private HashMap<Concierto, Integer> valoraciones;
 
     public Usuario() {
+        entradasCompradas = new ArrayList<>();
+        conciertosAsistidos = new HashSet<>();
+        valoraciones = new HashMap<>();
     }
 
-    public void comprarEntrada(Concierto concierto, Entrada.Tipo tipo) {
-        if (!concierto.isActivo()) {
-            System.out.println("Error: El concierto no está activo.");
-            return;
-        }
-        if (conciertosAsistidos.contains(concierto)) {
-            System.out.println("Error: Ya has asistido a este concierto.");
-            return;
-        }
-        if (!concierto.entradasDisponibles()) {
-            System.out.println("Error: No hay entradas disponibles.");
-            return;
-        }
-        Entrada nuevaEntrada = new Entrada(concierto, tipo);
-        concierto.getEntradasVendidas().add(nuevaEntrada);
-        this.entradasCompradas.add(nuevaEntrada);
-        this.conciertosAsistidos.add(concierto);
-    }
-
-    public void valorar(Concierto concierto, int valoracion) {
-        if (!conciertosAsistidos.contains(concierto)) {
-            System.out.println("Error: No has asistido a este concierto.");
-            return;
-        }
-        if (valoracion < 0 || valoracion > 10) {
-            System.out.println("Error: La valoración debe ser entre 0 y 10.");
-            return;
-        }
-        valoraciones.put(concierto, valoracion);
+    public Usuario(String nombre, int edad, ArrayList<Entrada> entradasCompradas, HashSet<Concierto> conciertosAsistidos, HashMap<Concierto, Integer> valoraciones) {
+        this.nombre = nombre;
+        this.edad = edad;
+        this.entradasCompradas = entradasCompradas;
+        this.conciertosAsistidos = conciertosAsistidos;
+        this.valoraciones = valoraciones;
     }
 
     public String getNombre() {
@@ -93,18 +68,41 @@ public class Usuario {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return getEdad() == usuario.getEdad() && Objects.equals(getNombre(), usuario.getNombre()) &&
-                Objects.equals(getEntradasCompradas(), usuario.getEntradasCompradas()) && Objects.equals(getConciertosAsistidos(),
-                usuario.getConciertosAsistidos()) && Objects.equals(getValoraciones(), usuario.getValoraciones());
+        return edad == usuario.edad && Objects.equals(nombre, usuario.nombre) && Objects.equals(entradasCompradas, usuario.entradasCompradas) && Objects.equals(conciertosAsistidos, usuario.conciertosAsistidos) && Objects.equals(valoraciones, usuario.valoraciones);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNombre(), getEdad(), getEntradasCompradas(), getConciertosAsistidos(), getValoraciones());
+        return Objects.hash(nombre, edad, entradasCompradas, conciertosAsistidos, valoraciones);
     }
 
     @Override
     public String toString() {
-        return getNombre() + " (ha asistido a " + getConciertosAsistidos().size() + ")";
+        return nombre + " (ha asistido a " + conciertosAsistidos.size() + " conciertos)";
+    }
+
+    public void comprarEntrada(Concierto concierto, Entrada.Tipo tipo) {
+        if (!concierto.isActivo()) {
+            System.out.println("El concierto no está activo");
+        } else if (conciertosAsistidos.contains(concierto)) {
+            System.out.println("Ya has asistido a este concierto");
+        } else if (!concierto.entradasDisponibles()) {
+            System.out.println("No hay entradas disponibles");
+        } else {
+            Entrada entrada = new Entrada(concierto, tipo);
+            concierto.getEntradasVendidas().add(entrada);
+            entradasCompradas.add(entrada);
+            conciertosAsistidos.add(concierto);
+        }
+    }
+
+    public void valorar(Concierto concierto, Integer valoracion) {
+        if (!conciertosAsistidos.contains(concierto)) {
+            System.out.println("No has asistido a este concierto");
+        } else if (valoracion < 0 || valoracion > 10) {
+            System.out.println("Valoración inválida");
+        } else {
+            valoraciones.put(concierto, valoracion);
+        }
     }
 }

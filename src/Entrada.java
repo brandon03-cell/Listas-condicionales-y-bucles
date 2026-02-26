@@ -2,10 +2,7 @@ import java.util.Objects;
 
 public class Entrada {
     private Concierto concierto;
-    public enum Tipo {
-        PISTA,
-        GRADA,
-        VIP};
+    public enum Tipo {PISTA, GRADA, VIP}
     private Tipo tipo;
 
     public Entrada(Concierto concierto, Tipo tipo) {
@@ -14,21 +11,6 @@ public class Entrada {
     }
 
     public Entrada() {
-    }
-
-    public double getPrecioTotal() {
-        double precioBase = concierto.getPrecioBase();
-
-        switch (this.tipo) {
-            case GRADA:
-                return precioBase;
-            case PISTA:
-                return precioBase * 1.10;
-            case VIP:
-                return precioBase * 1.20;
-            default:
-                return 0;
-        }
     }
 
     public Concierto getConcierto() {
@@ -51,16 +33,28 @@ public class Entrada {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Entrada entrada = (Entrada) o;
-        return getTipo() == entrada.getTipo();
+        return Objects.equals(concierto, entrada.concierto) && tipo == entrada.tipo;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTipo());
+        return Objects.hash(concierto, tipo);
+    }
+
+    public double getPrecioTotal() {
+        double precioBase = concierto.getPrecioBase();
+        switch (tipo) {
+            case GRADA:
+                return precioBase;
+            case PISTA:
+                return precioBase * 1.1;
+            default:
+                return precioBase * 1.2;
+        }
     }
 
     @Override
     public String toString() {
-        return "Enrada de " + getPrecioTotal() + "€";
+        return "Entrada de " + getPrecioTotal() + "€";
     }
 }

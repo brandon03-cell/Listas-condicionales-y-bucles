@@ -6,48 +6,35 @@ public class Concierto {
     private String ciudad;
     private double precioBase;
     private int aforoMaximo;
-    private ArrayList<Entrada> entradasVendidas = new ArrayList();
+    private ArrayList<Entrada> entradasVendidas;
     private boolean activo;
-
-    public Concierto(String artista, String ciudad, double precioBase, int aforoMaximo, boolean activo) {
-        this.artista = artista;
-        this.ciudad = ciudad;
-        this.precioBase = precioBase;
-        this.aforoMaximo = aforoMaximo;
-        this.entradasVendidas = new ArrayList<>();
-        this.activo = activo;
-    }
 
     public Concierto() {
     }
 
-    public double calcularRecaudacion() {
-        double totalRecaudado = 0;
-        for (Entrada e : entradasVendidas) {
-            totalRecaudado += e.getPrecioTotal();
-        }
-        return totalRecaudado;
-    }
-
-    public double calcularPrecioMedio() {
-        int totalEntradas = entradasVendidas.size();
-        if (totalEntradas == 0) {
-            return 0;
-        }
-        double recaudacionTotal = calcularRecaudacion();
-        return recaudacionTotal / totalEntradas;
-    }
-
-    public boolean entradasDisponibles() {
-        if (entradasVendidas.size() < aforoMaximo) {
-            return true;
-        } else {
-            return false;
-        }
+    public Concierto(String artista, String ciudad, double precioBase, int aforoMaximo, ArrayList<Entrada> entradasVendidas, boolean activo) {
+        this.artista = artista;
+        this.ciudad = ciudad;
+        this.precioBase = precioBase;
+        this.aforoMaximo = aforoMaximo;
+        this.entradasVendidas = entradasVendidas;
+        this.activo = activo;
     }
 
     public String getArtista() {
         return artista;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Concierto concierto = (Concierto) o;
+        return Double.compare(precioBase, concierto.precioBase) == 0 && aforoMaximo == concierto.aforoMaximo && activo == concierto.activo && Objects.equals(artista, concierto.artista) && Objects.equals(ciudad, concierto.ciudad) && Objects.equals(entradasVendidas, concierto.entradasVendidas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(artista, ciudad, precioBase, aforoMaximo, activo);
     }
 
     public void setArtista(String artista) {
@@ -95,20 +82,27 @@ public class Concierto {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Concierto concierto = (Concierto) o;
-        return Double.compare(getPrecioBase(), concierto.getPrecioBase()) == 0 && getAforoMaximo() == concierto.getAforoMaximo() && isActivo() == concierto.isActivo() &&
-                Objects.equals(getArtista(), concierto.getArtista()) && Objects.equals(getCiudad(), concierto.getCiudad());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getArtista(), getCiudad(), getPrecioBase(), getAforoMaximo(), isActivo());
-    }
-
-    @Override
     public String toString() {
-        return "Concierto de " + getArtista() + " en " + getCiudad();
+        return "Concierto de " + artista + " en " + ciudad;
+    }
+
+    public double calcularRecaudacion() {
+        double total = 0;
+        for (Entrada entrada : entradasVendidas) {
+            total += entrada.getPrecioTotal();
+        }
+        return total;
+    }
+
+    public double getPrecioMedio() {
+        if (entradasVendidas.size() == 0) {
+            return 0;
+        } else {
+            return calcularRecaudacion() / entradasVendidas.size();
+        }
+    }
+
+    public boolean entradasDisponibles() {
+        return entradasVendidas.size() < aforoMaximo;
     }
 }
