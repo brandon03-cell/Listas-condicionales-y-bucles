@@ -92,20 +92,18 @@ public class Usuario {
         }
 
         if (this.conciertosAsistidos.contains(concierto)) {
-            throw new ConciertoYaAsistidoException("Ya has asistido");
+            throw new ConciertoYaAsistidoException("Ya has asistido a este concierto");
         }
 
         if (!concierto.entradasDisponibles()) {
-            throw new AforoCompletoException("Aforo lleno");
+            throw new AforoCompletoException("No hay entradas disponibles (Aforo completo)");
         }
 
         Entrada entrada = new Entrada(concierto, tipo);
         concierto.getEntradasVendidas().add(entrada);
         this.entradasCompradas.add(entrada);
-
         this.conciertosAsistidos.add(concierto);
     }
-
     public void valorar(Concierto concierto, Integer valoracion)
             throws ConciertoNoAsistidoException, ValoracionIncorrecta {
 
