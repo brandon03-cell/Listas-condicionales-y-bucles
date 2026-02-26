@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+
+import clases.Concierto;
+import clases.Entrada;
+import clases.Usuario;
 import exceptions.*;
 
 public class Main {

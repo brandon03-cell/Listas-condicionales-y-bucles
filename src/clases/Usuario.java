@@ -1,3 +1,5 @@
+package clases;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -88,13 +90,33 @@ public class Usuario {
         if (!concierto.isActivo()) {
             throw new ConciertoInactivoException("El concierto no está activo");
         }
+
+        if (this.conciertosAsistidos.contains(concierto)) {
+            throw new ConciertoYaAsistidoException("Ya has asistido");
+        }
+
+        if (!concierto.entradasDisponibles()) {
+            throw new AforoCompletoException("Aforo lleno");
+        }
+
+        Entrada entrada = new Entrada(concierto, tipo);
+        concierto.getEntradasVendidas().add(entrada);
+        this.entradasCompradas.add(entrada);
+
+        this.conciertosAsistidos.add(concierto);
     }
 
     public void valorar(Concierto concierto, Integer valoracion)
             throws ConciertoNoAsistidoException, ValoracionIncorrecta {
 
-        if (!conciertosAsistidos.contains(concierto)) {
+        if (!this.conciertosAsistidos.contains(concierto)) {
             throw new ConciertoNoAsistidoException("No has asistido a este concierto");
         }
+
+        if (valoracion < 0 || valoracion > 10) {
+            throw new ValoracionIncorrecta("Valoración fuera de rango");
+        }
+
+        this.valoraciones.put(concierto, valoracion);
     }
 }
