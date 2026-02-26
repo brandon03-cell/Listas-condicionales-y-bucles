@@ -1,4 +1,5 @@
 import java.util.Objects;
+import exceptions.*;
 
 public class Entrada {
     private Concierto concierto;

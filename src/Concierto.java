@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Objects;
+import exceptions.*;
 
 public class Concierto {
     private String artista;
@@ -94,12 +95,11 @@ public class Concierto {
         return total;
     }
 
-    public double getPrecioMedio() {
-        if (entradasVendidas.size() == 0) {
-            return 0;
-        } else {
-            return calcularRecaudacion() / entradasVendidas.size();
+    public double calcularPrecioMedio() throws CeroEntradasException {
+        if (entradasVendidas.isEmpty()) {
+            throw new CeroEntradasException("El concierto no tiene entradas vendidas");
         }
+        return calcularRecaudacion() / entradasVendidas.size();
     }
 
     public boolean entradasDisponibles() {

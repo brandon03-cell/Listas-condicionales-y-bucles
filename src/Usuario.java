@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import exceptions.*;
 
 public class Usuario {
     private String nombre;
@@ -81,28 +82,19 @@ public class Usuario {
         return nombre + " (ha asistido a " + conciertosAsistidos.size() + " conciertos)";
     }
 
-    public void comprarEntrada(Concierto concierto, Entrada.Tipo tipo) {
+    public void comprarEntrada(Concierto concierto, Entrada.Tipo tipo)
+            throws ConciertoInactivoException, ConciertoYaAsistidoException, AforoCompletoException {
+
         if (!concierto.isActivo()) {
-            System.out.println("El concierto no está activo");
-        } else if (conciertosAsistidos.contains(concierto)) {
-            System.out.println("Ya has asistido a este concierto");
-        } else if (!concierto.entradasDisponibles()) {
-            System.out.println("No hay entradas disponibles");
-        } else {
-            Entrada entrada = new Entrada(concierto, tipo);
-            concierto.getEntradasVendidas().add(entrada);
-            entradasCompradas.add(entrada);
-            conciertosAsistidos.add(concierto);
+            throw new ConciertoInactivoException("El concierto no está activo");
         }
     }
 
-    public void valorar(Concierto concierto, Integer valoracion) {
+    public void valorar(Concierto concierto, Integer valoracion)
+            throws ConciertoNoAsistidoException, ValoracionIncorrecta {
+
         if (!conciertosAsistidos.contains(concierto)) {
-            System.out.println("No has asistido a este concierto");
-        } else if (valoracion < 0 || valoracion > 10) {
-            System.out.println("Valoración inválida");
-        } else {
-            valoraciones.put(concierto, valoracion);
+            throw new ConciertoNoAsistidoException("No has asistido a este concierto");
         }
     }
 }
